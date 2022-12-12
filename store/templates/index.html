@@ -2,6 +2,9 @@
 {% block title %} Phacharamon POS {% endblock %}
 {% load humanize %}
 {% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'CSS.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -54,11 +57,11 @@
                     <div class="card shadow-sm p-1  bg-white rounded ">
                         {% if products.image %}
                         <a href="#">
-                            <img src="{{ products.image.url }}" alt="image" class="card-img-top" height="120px" width="120px">
+                            <img src="{{ products.image.url }}" alt="image" class="card-img-top" height="150px" width="120px">
                         </a>
                         {% else %}
                         <a href="#">
-                            <img src="{% static 'media/no-pic.jpg' %}" alt="image" class="card-img-top" height="100px">
+                            <img src="{% static 'media/no-pic.jpg' %}" alt="image" class="card-img-top" height="150px">
                         </a>
                         {% endif %}
                         <div class="card-body mt-1" height="100px">
@@ -77,8 +80,26 @@
                 </div>
                 {% endfor %}
             </div>
+            <br>
+            <div class="footer">
+                <ul class="pagination justify-content-end">
+                    {% if product.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page=product.previous_page_number">Previous</a></li>
+                    {% endif %}
+        
+                    {% for i in product.paginator.page_range %}
+                    <li class="page-item {% if product.number == i %}active{% endif %}"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+        
+                    {% if product.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{product.next_page_number}}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </div>
             </div>
 
+            
         
 
     </div>
