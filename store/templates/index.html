@@ -5,18 +5,26 @@
 {% block style %}
     <link rel="stylesheet" href="{% static 'CSS.css' %}">
 {% endblock %}
+{% block script %}
+    <script src="{% static 'JS.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6 mt-3">
             <div class=" border border-dark">
-                <h2 class="text-center">ชำระสินค้า<i class="fas fa-shopping-cart px-2"></i>0</h2>
-                <a class="text-center text-dark text-uppercase font-weight-bold px-3" href="">
-                </a>
-                <div class="footer">
+                <h2 class="text-center">รายการสินค้า<i class="fas fa-shopping-cart px-2"></i>
+                {% if item_count > 0 %}
+                    {{item_count}}
+                {% else %}
+                  0
+                {% endif %}</h2>
+                <br>
+                <p> {{total}} </p>
+                <!--<div class="footer">
                     1
-                </div>
+                </div>-->
             </div>
         </div>
         <div class="col-lg-6 mt-3">
@@ -40,7 +48,7 @@
 
                 <div class="col-lg-4">
                     <div class="input-group">
-                        <input class="form-control mr-sm-1" type="text" placeholder="ชื่อสินค้า / รหัสสินค้า"
+                        <input class="my-input mr-sm-1" type="text" placeholder="ชื่อสินค้า / รหัสสินค้า"
                             aria-label="Search">
                             <button type="submit" class="btn btn-success"><i class="fa fa-barcode px-1 fa-1x"></i></button>
                         <span></span>
@@ -72,7 +80,7 @@
                             {% if products.stock <= 0 %} <h4 class="text-center text-danger font-weight-bold mb-3">
                                 สินค้าหมด</h4>
                                 {% else %}
-                                <a href="#" class="btn btn-success btn-lg btn-block "> เลือกสินค้า </a>
+                                <a href="{%url 'addCart' products.id%}" class="btn btn-success btn-lg btn-block "> เลือกสินค้า </a>
                                 {% endif %}
                         </div>
 

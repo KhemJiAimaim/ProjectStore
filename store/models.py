@@ -49,15 +49,17 @@ class Product(models.Model):
         return self.name
 
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=255, blank=True)
+    #cart_id = models.AutoField(primary_key=True)
     date_added = models.DateTimeField(auto_now_add=True) #วัน-เวลาเพิ่มขุ้อมูลสินค้า
 
     def __str__(self):
-        return self.cart_id
+        return self.id
     
     class Meta:
         db_table = 'cart'
         ordering = ['date_added']
+        verbose_name = 'ตะกร้าสินค้า'
+        verbose_name_plural = 'ข้อมูลตะกร้าสินค้า'
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product , on_delete=models.CASCADE)
@@ -67,6 +69,8 @@ class CartItem(models.Model):
 
     class Meta:
         db_table = 'cartItem'
+        verbose_name = 'รายการสินค้า'
+        verbose_name_plural = 'ข้อมูลรายการสินค้า'
         
     #ผลรวมราคาขาย
     def sub_total(self):
@@ -77,5 +81,5 @@ class CartItem(models.Model):
         return self.product.cost * self.quantity
 
     def __str__(self):
-        return self.cart
-
+        return self.product.name
+        
