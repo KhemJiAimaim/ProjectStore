@@ -49,11 +49,11 @@ class Product(models.Model):
         return self.name
 
 class Cart(models.Model):
-    #cart_id = models.AutoField(primary_key=True)
+    cart_id = models.CharField(max_length=255,blank=True,null=True)
     date_added = models.DateTimeField(auto_now_add=True) #วัน-เวลาเพิ่มขุ้อมูลสินค้า
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
     class Meta:
         db_table = 'cart'
@@ -81,5 +81,5 @@ class CartItem(models.Model):
         return self.product.cost * self.quantity
 
     def __str__(self):
-        return self.product.name
+        return str(self.product.name)
         

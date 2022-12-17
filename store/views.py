@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
-def index(request, category_slug=None):
+def pos(request, category_slug=None):
     product = None
     category_page = None
 
@@ -16,7 +16,7 @@ def index(request, category_slug=None):
     else:
         product = Product.objects.all().filter()
 
-    paginator = Paginator(product, 8)
+    paginator = Paginator(product, 12)
     page = request.GET.get('page')
     try:
         product = paginator.page(page)
@@ -25,18 +25,41 @@ def index(request, category_slug=None):
     except EmptyPage:
         product = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {
+    total = 0
+    cost = 0
+    counter = 0
+    cart_items = None
+
+    try:
+        cart = Cart.objects.get(cart_id =_cart_id(request))  # ดึงตะกร้าสินค้ามา
+        cart_items = CartItem.objects.filter(
+            cart=cart, active=True)  # ดึงข้อมูลสินต้าในตะกร้า
+        for item in cart_items:
+            total += (item.product.price*item.quantity)
+            cost += (item.product.cost*item.quantity)
+            counter += item.quantity
+
+    except Exception as e:
+        pass
+
+    return render(request, 'pos.html', {
         'product':  product,
-        'category': category_page
+        'category': category_page,
+        'cart_items' : cart_items,
+        'total' : total,
+        'cost' : cost,
+        'counter' : counter
     })
 
+    
 
 def product(request):
     return render(request, 'product.html')
 
+def index(request):
+    return render(request, 'index.html')
+
 # สร้าง Session
-
-
 def _cart_id(request):
    cart = request.session.session_key
    if not cart:
@@ -49,9 +72,9 @@ def addCart(request, product_id):
     product = Product.objects.get(id=product_id)
     # สร้างตะกร้าสินค้า
     try:
-        cart = Cart.objects.get(id=_cart_id(request))
+        cart = Cart.objects.get(cart_id = _cart_id(request))
     except Cart.DoesNotExist:
-        cart = Cart.objects.create(id=_cart_id(request))
+        cart = Cart.objects.create(cart_id = _cart_id(request))
         cart.save()
         # บันทึกเข้าฐานข้อมูล
 
@@ -73,29 +96,3 @@ def addCart(request, product_id):
         cart_item.save()
     return redirect('/')
 
-
-def cartdetail(request):
-    total = 0
-    cost = 0
-    counter = 0
-    cart_items = None
-
-    try:
-        cart = Cart.objects.get(id=_cart_id(request))  # ดึงตะกร้าสินค้ามา
-        cart_items = CartItem.objects.filter(
-            cart=cart, active=True)  # ดึงข้อมูลสินต้าในตะกร้า
-        for item in cart_items:
-            total += (item.product.price*item.quantity)
-            cost += (item.product.cost*item.quantity)
-            counter += item.quantity
-
-    except Exception as e:
-        pass
-
-        return render(request, 'index.html', 
-        dict(
-            cart_items=cart_items,
-            total=total,
-            cost=cost,
-            counter=counter
-        ))

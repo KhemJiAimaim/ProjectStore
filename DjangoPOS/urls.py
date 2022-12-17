@@ -23,8 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', views.product),
-    path('', views.index , name="home"),
-    path('category/<slug:category_slug>' , views.index, name="product_by_category"),
+    path('index/', views.index),
+    path('', views.pos , name="home"),
+    path('category/<slug:category_slug>' , views.pos, name="product_by_category"),
     path('cart/add/<int:product_id>', views.addCart , name="addCart"),
     #path('cartdetail/',views.cartdetail,name="cartdetail"),
 ]
