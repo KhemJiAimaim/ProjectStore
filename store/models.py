@@ -53,7 +53,7 @@ class Cart(models.Model):
     date_added = models.DateTimeField(auto_now_add=True) #วัน-เวลาเพิ่มขุ้อมูลสินค้า
 
     def __str__(self):
-        return str(self.id)
+        return str(self.cart_id)
     
     class Meta:
         db_table = 'cart'

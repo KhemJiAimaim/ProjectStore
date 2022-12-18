@@ -14,26 +14,72 @@
     <div class="row">
         <div class="col-lg-6 mt-3">
             <div class=" border border-dark-fluid">
-                <h2 class="text-center">รายการสินค้า <br><i class="fas fa-shopping-cart"></i>
-                {% if item_count > 0 %}
-                    {{item_count}}
-                {% else %}
-                  0
-                {% endif %}</h2>
+                <h2 class="text-center mt-3">รายการสินค้า <br></h2>
                 <br>
-                <p> {{total | intcomma}} </p>
-                <p> {{counter}} </p>
-                <!--<div class="footer">
-                    1
-                </div>-->
+                <div class="row">
+                    <div class="col ml-2">
+                        <h5 class="text-left ">จำนวนสินค้า {{counter}} ชิ้น</h5>
+                    </div>
+                    <div class="col mr-2">
+                        <h5 class="text-right">ยอดชำระเงิน {{total | intcomma}} บาท</h5>
+                    </div>
+                </div>
+                <br>
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr class="cart_menu table-success">
+                                    <td class="barcode"><strong>รหัสสินค้า</strong></td>
+                                    <td class="name"><strong>ชื่อสินค้า</strong></td>
+                                    <td class="price"><strong>ราคา</strong></td>
+                                    <td class="quantity"><strong>จำนวน</strong></td>
+                                    <td class="total"><strong>รวม</strong></td>
+                                    <td></td>
+                            </thead>
+                            <tbody>
+                                
+                                {% for item in cart_items %}
+                                <tr>
+                                    <td class="cart_product">
+                                        <h6>{{item.product.barcode}}</h6>
+                                    </td>
+                                    <td class="cart_description">
+                                        <h6>{{item.product.name}}</h6>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{item.product.price | intcomma}}</p>
+                                    </td>
+                                    <td class="cart_quantity">
+                                            <p>{{item.quantity}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="cart_total">
+                                        <p class="cart_total_price">{{item.sub_total}}</p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" onclick="return confirm('คุณต้องการรายการลบสินค้าหรือไม่ ?')" href="{%url 'removeCart' item.product.id%}"><i class="fa fa-times col text-danger"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <footer>
+                        <div class="dropdown-divider "></div>
+                        <div align="right">
+                            <button type="button" class="btn btn-success mb-2 ml-2">ชำระเงิน</button>
+                            <button type="button" class="btn btn-success mb-2 mr-2">จ่ายทั้งหมด</button>
+                        </div>
+                    </footer>
             </div>
         </div>
+
         <div class="col-lg-6 mt-3">
             <div class="row">
                 <div class="col">
                     <h2>สินค้าทั้งหมด</h2>
                 </div>
-
                 <div class="col-lg-2 px-1">
                     <a class="btn btn-success text-light text-center text-uppercase font-weight-bold px-3 dropdown-toggle"
                         href="" data-toggle="dropdown">หมวดหมู่สินค้า</a>
@@ -55,8 +101,6 @@
                         <span></span>
                     </div>
                 </div>
-
-                
             </div>
 
 
@@ -108,13 +152,6 @@
                 </ul>
             </footer>
             </div>
-
-            
-        
-
     </div>
 </div>
-
-
-
 {% endblock %}

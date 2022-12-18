@@ -27,6 +27,8 @@ urlpatterns = [
     path('', views.pos , name="home"),
     path('category/<slug:category_slug>' , views.pos, name="product_by_category"),
     path('cart/add/<int:product_id>', views.addCart , name="addCart"),
+    path('cart/remove/<int:product_id>', views.removeCart , name="removeCart"),
+
     #path('cartdetail/',views.cartdetail,name="cartdetail"),
 ]
 

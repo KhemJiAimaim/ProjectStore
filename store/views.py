@@ -31,7 +31,7 @@ def pos(request, category_slug=None):
     cart_items = None
 
     try:
-        cart = Cart.objects.get(cart_id =_cart_id(request))  # ดึงตะกร้าสินค้ามา
+        cart = Cart.objects.get(cart_id=_cart_id(request))  # ดึงตะกร้าสินค้ามา
         cart_items = CartItem.objects.filter(
             cart=cart, active=True)  # ดึงข้อมูลสินต้าในตะกร้า
         for item in cart_items:
@@ -45,21 +45,23 @@ def pos(request, category_slug=None):
     return render(request, 'pos.html', {
         'product':  product,
         'category': category_page,
-        'cart_items' : cart_items,
-        'total' : total,
-        'cost' : cost,
-        'counter' : counter
+        'cart_items': cart_items,
+        'total': total,
+        'cost': cost,
+        'counter': counter
     })
 
-    
 
 def product(request):
     return render(request, 'product.html')
+
 
 def index(request):
     return render(request, 'index.html')
 
 # สร้าง Session
+
+
 def _cart_id(request):
    cart = request.session.session_key
    if not cart:
@@ -72,9 +74,9 @@ def addCart(request, product_id):
     product = Product.objects.get(id=product_id)
     # สร้างตะกร้าสินค้า
     try:
-        cart = Cart.objects.get(cart_id = _cart_id(request))
+        cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist:
-        cart = Cart.objects.create(cart_id = _cart_id(request))
+        cart = Cart.objects.create(cart_id=_cart_id(request))
         cart.save()
         # บันทึกเข้าฐานข้อมูล
 
@@ -96,3 +98,13 @@ def addCart(request, product_id):
         cart_item.save()
     return redirect('/')
 
+
+def removeCart(request, product_id):
+    # ทำงานกับตะกร้าสินค้า
+    cart = Cart.objects.get(cart_id=_cart_id(request))  # ดึงตะกร้าสินค้ามา
+    # ทำงานกับสินค้าที่จะลบ
+    product = get_object_or_404(Product, id=product_id)
+    cartItem = CartItem.objects.get(product=product, cart=cart)
+    # ลบรายการสินค้า 1 ออกจากตะกร้า A โดยลบจาก รายการสินค้สในตะกร้า (CartItem)
+    cartItem.delete()
+    return redirect('/')
