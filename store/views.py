@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from store.models import Category, Product, Cart, CartItem
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth import login , authenticate,logout
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -108,3 +109,29 @@ def removeCart(request, product_id):
     # ลบรายการสินค้า 1 ออกจากตะกร้า A โดยลบจาก รายการสินค้สในตะกร้า (CartItem)
     cartItem.delete()
     return redirect('/')
+
+def signInView(request):
+    if request.method=='POST':
+        form=AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username=request.POST['username']
+            password=request.POST['password']
+            user=authenticate(username=username,password=password)
+            if user is not None :
+                login(request,user)
+                return redirect('home')
+            else :
+                return redirect('signUp')
+    else:
+        form=AuthenticationForm()
+    return render(request,'signIn.html',{'form':form})
+
+def signOutView(request):
+    logout(request)
+    return redirect('signIn')
+
+def search(request):
+    product=Product.objects.filter(name__contains=request.GET['title'])
+    return render(request,'POS.html',{
+        'product':product
+    })

@@ -28,7 +28,9 @@ urlpatterns = [
     path('category/<slug:category_slug>' , views.pos, name="product_by_category"),
     path('cart/add/<int:product_id>', views.addCart , name="addCart"),
     path('cart/remove/<int:product_id>', views.removeCart , name="removeCart"),
-
+    path('account/login',views.signInView,name="signIn"),
+    path('account/logout',views.signOutView,name="signOut"),
+    path('search/',views.search,name='search'),
     #path('cartdetail/',views.cartdetail,name="cartdetail"),
 ]
 
