@@ -30,7 +30,7 @@ urlpatterns = [
     path('cart/remove/<int:product_id>', views.removeCart , name="removeCart"),
     path('account/login',views.signInView,name="signIn"),
     path('account/logout',views.signOutView,name="signOut"),
-    path('search/',views.search,name='search'),
+    #path('search/',views.search,name='search'),
     #path('cartdetail/',views.cartdetail,name="cartdetail"),
 ]
 

@@ -13,31 +13,29 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6 mt-3">
-            <h2 class="text-center mt-3">รายการสินค้า <br></h2>
-            <div class=" border border-dark-fluid">
-                
+            <h2 class="text-center mt-3">รายการสินค้า</h2><br>
                 <br>
                 <div class="row">
                     <div class="col ml-2">
-                        <h5 class="text-left ">จำนวนสินค้า {{counter}} ชิ้น</h5>
+                        <h5 class="text-left ">จำนวนสินค้า <strong style="font-size: 25px;"> {{counter}} </strong>ชิ้น</h5>
                     </div>
                     <div class="col mr-2">
-                        <h5 class="text-right">ยอดชำระเงิน <strong>{{total | intcomma}} </strong>บาท</h5>
+                        <h5 class="text-right">ยอดชำระเงิน <strong style="font-size: 25px;">{{total | intcomma}} </strong> บาท</h5>
                     </div>
                 </div>
                 <br>
-                    <div class="table-responsive">
-                        <table class="table table-condensed">
+                    <div class="table-responsive" style="overflow-y: auto; border: 1px solid rgb(7, 122, 36); height: 620px;">
+                        <table class="table table-condensed    text-center " >
                             <thead>
                                 <tr class="cart_menu table-success">
-                                    <td class="barcode"><strong>รหัสสินค้า</strong></td>
-                                    <td class="name"><strong>ชื่อสินค้า</strong></td>
-                                    <td class="price"><strong>ราคา</strong></td>
-                                    <td class="quantity"><strong>จำนวน</strong></td>
-                                    <td class="total"><strong>รวม</strong></td>
-                                    <td></td>
+                                    <td class="barcode" width="30%"><strong>รหัสสินค้า</strong></td>
+                                    <td class="name" width="20%"><strong>ชื่อสินค้า</strong></td>
+                                    <td class="price" width="15%"><strong>ราคา</strong></td>
+                                    <td class="quantity" width="15%"><strong>จำนวน</strong></td>
+                                    <td class="total" width="15%"><strong>รวม</strong></td>
+                                    <td class="total" width="15%"><i class="fa fa-times col text-danger"></i></td>
                             </thead>
-                            <tbody>
+                            <tbody style="font-size: 16px; font-weight: bold; overflow: scroll;">
                                 
                                 {% for item in cart_items %}
                                 <tr>
@@ -65,15 +63,12 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <footer>
-                        <div class="dropdown-divider "></div>
-                        <div align="right">
-                            <button type="button" class="btn btn-danger mb-2 ml-2">ลูกหนี้</button>
-                            <button type="button" class="btn btn-success mb-2 ml-2">ชำระเงิน</button>
-                            <button type="button" class="btn btn-success mb-2 mr-2">จ่ายทั้งหมด</button>
-                        </div>
-                    </footer>
+            <div class="box-footer bg-light">
+                <div class="dropdown-divider "></div>
+                <div align="right">
+                    <button type="button" class="btn btn-danger mb-2 ml-2">ลูกหนี้</button>
+                    <button type="button" class="btn btn-success mb-2 mr-2">ชำระเงิน</button>
+                </div>
             </div>
         </div>
 
@@ -96,10 +91,10 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <form class="form-inline ml-3" action="{% url 'search' %}", method="GET">
+                    <form class="form-inline ml-3" action="{% url 'home' %}", method="GET">
                         <div class="input-group">
                             <input class="form-control" name="title" type="text" placeholder="ชื่อสินค้า / รหัสสินค้า">
-                            <div class="input-group-append">   
+                            <div class="input-group-append">
                                 <button type="submit" class="btn btn-success"><i class="fa fa-barcode px-1 fa-1x"></i></button>
                             </div>
                         </div>
@@ -113,11 +108,11 @@
                 <div class="col-lg-3 mt-3">
                     <div class="card shadow-sm p-1  bg-white rounded ">
                         {% if products.image and products.stock <= 0 %}
-                        <a>
-                            <img  src="{{ products.image.url }}" alt="image" class="card-img-top" height="160px" width="110px">
+                        <a title="{{ products.description }}">
+                            <img  src="{{ products.image.url }}" alt="image"  class="card-img-top" height="160px" width="110px">
                         </a>
                         {% else %}
-                        <a href="{%url 'addCart' products.id%}">
+                        <a href="{%url 'addCart' products.id%}" title="{{ products.description }}">
                             <img  src="{{ products.image.url }}" alt="image" class="card-img-top" height="160px" width="110px">
                         </a>
                         <!--<a href="#">

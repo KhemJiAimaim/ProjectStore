@@ -41,8 +41,9 @@
           <i class="fas fa-shopping-cart"></i>0
         </a>
       </li>-->
-  
     </ul>
+
+      {% if request.user.is_authenticated %}
     <form class="form-inline ">
       <a class="nav-link text-dark text-uppercase font-weight-bold px-3" href="index">
         จัดการร้านค้า
@@ -51,6 +52,10 @@
         ออกจากระบบ <i class="fas fa-sign-out-alt"></i>
       </a>
     </form>
+    {% else %}
+      <h1> </h1>
+
+    {% endif %}
 
 
     <!--<form class="form-inline ml-3" action="", method="GET">

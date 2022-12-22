@@ -4,9 +4,10 @@ from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login , authenticate,logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required (login_url='signIn')
 def pos(request, category_slug=None):
     product = None
     category_page = None
@@ -32,17 +33,21 @@ def pos(request, category_slug=None):
     cart_items = None
 
     try:
+        
         cart = Cart.objects.get(cart_id=_cart_id(request))  # ดึงตะกร้าสินค้ามา
         cart_items = CartItem.objects.filter(
             cart=cart, active=True)  # ดึงข้อมูลสินต้าในตะกร้า
+        
         for item in cart_items:
             total += (item.product.price*item.quantity)
             cost += (item.product.cost*item.quantity)
             counter += item.quantity
-
+        product = Product.objects.filter(name__contains=request.GET ['title'])
     except Exception as e:
         pass
-
+    
+    
+    
     return render(request, 'pos.html', {
         'product':  product,
         'category': category_page,
@@ -74,6 +79,7 @@ def addCart(request, product_id):
     # มันส่งจะไอดีมาจากนั้น ไอดีจะเป็นตังดึงสินค้าออกมาตามรหัส
     product = Product.objects.get(id=product_id)
     # สร้างตะกร้าสินค้า
+    
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist:
@@ -98,6 +104,8 @@ def addCart(request, product_id):
         )
         cart_item.save()
     return redirect('/')
+
+    
 
 
 def removeCart(request, product_id):
@@ -130,8 +138,3 @@ def signOutView(request):
     logout(request)
     return redirect('signIn')
 
-def search(request):
-    product=Product.objects.filter(name__contains=request.GET['title'])
-    return render(request,'POS.html',{
-        'product':product
-    })
