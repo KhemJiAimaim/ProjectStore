@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from store.models import Category, Product, Cart, CartItem
+from store.models import Category, Product, Cart, CartItem , Order
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login , authenticate,logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 @login_required (login_url='signIn')
@@ -33,7 +34,6 @@ def pos(request, category_slug=None):
     cart_items = None
 
     try:
-        
         cart = Cart.objects.get(cart_id=_cart_id(request))  # ดึงตะกร้าสินค้ามา
         cart_items = CartItem.objects.filter(
             cart=cart, active=True)  # ดึงข้อมูลสินต้าในตะกร้า
@@ -57,6 +57,9 @@ def pos(request, category_slug=None):
         'counter': counter
     })
 
+def Checkout(request):
+    return render(request, 'checkout.html')
+
 
 def product(request):
     return render(request, 'product.html')
@@ -65,9 +68,10 @@ def product(request):
 def index(request):
     return render(request, 'index.html')
 
+
+
+
 # สร้าง Session
-
-
 def _cart_id(request):
    cart = request.session.session_key
    if not cart:
@@ -114,7 +118,7 @@ def removeCart(request, product_id):
     # ทำงานกับสินค้าที่จะลบ
     product = get_object_or_404(Product, id=product_id)
     cartItem = CartItem.objects.get(product=product, cart=cart)
-    # ลบรายการสินค้า 1 ออกจากตะกร้า A โดยลบจาก รายการสินค้สในตะกร้า (CartItem)
+    # ลบรายการสินค้า 1 ออกจากตะกร้า A โดยลบจาก รายการสินค้าในตะกร้า (CartItem)
     cartItem.delete()
     return redirect('/')
 
@@ -127,14 +131,16 @@ def signInView(request):
             user=authenticate(username=username,password=password)
             if user is not None :
                 login(request,user)
-                return redirect('home')
+                return redirect('pos')
             else :
-                return redirect('signUp')
+                messages.error(request,"Invalid username or password.")
     else:
+        messages.error(request,"Invalid username or password.")
         form=AuthenticationForm()
     return render(request,'signIn.html',{'form':form})
 
 def signOutView(request):
     logout(request)
     return redirect('signIn')
+
 

@@ -15,22 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.urls import re_path
 from store import views 
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', views.product),
     path('index/', views.index),
-    path('', views.pos , name="home"),
+    path('', views.pos , name="pos"),
     path('category/<slug:category_slug>' , views.pos, name="product_by_category"),
     path('cart/add/<int:product_id>', views.addCart , name="addCart"),
     path('cart/remove/<int:product_id>', views.removeCart , name="removeCart"),
     path('account/login',views.signInView,name="signIn"),
     path('account/logout',views.signOutView,name="signOut"),
-    #path('search/',views.search,name='search'),
+    path('checkout/',views.Checkout,name='checkout'),
     #path('cartdetail/',views.cartdetail,name="cartdetail"),
 ]
 

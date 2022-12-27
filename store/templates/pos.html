@@ -24,19 +24,19 @@
                     </div>
                 </div>
                 <br>
-                    <div class="table-responsive" style="overflow-y: auto; border: 1px solid rgb(7, 122, 36); height: 620px;">
+                    <div class="table-responsive" style="overflow-y: auto; border: 2px solid rgb(7, 122, 36); height: 620px;">
                         <table class="table table-condensed    text-center " >
-                            <thead>
+                            <thead style="font-size: 18px; font-weight: bold; ">
                                 <tr class="cart_menu table-success">
-                                    <td class="barcode" width="30%"><strong>รหัสสินค้า</strong></td>
+                                    <td class="barcode" width="20%"><strong>รหัสสินค้า</strong></td>
                                     <td class="name" width="20%"><strong>ชื่อสินค้า</strong></td>
                                     <td class="price" width="15%"><strong>ราคา</strong></td>
                                     <td class="quantity" width="15%"><strong>จำนวน</strong></td>
                                     <td class="total" width="15%"><strong>รวม</strong></td>
-                                    <td class="total" width="15%"><i class="fa fa-times col text-danger"></i></td>
+                                    <td class="total" width="20%"><i class="fa-solid fa-trash text-danger"></i></td>
                             </thead>
-                            <tbody style="font-size: 16px; font-weight: bold; overflow: scroll;">
-                                
+
+                            <tbody style="font-size: 18px; font-weight: bold; overflow: scroll;">
                                 {% for item in cart_items %}
                                 <tr>
                                     <td class="cart_product">
@@ -56,7 +56,7 @@
                                         <p class="cart_total_price">{{item.sub_total}}</p>
                                     </td>
                                     <td class="cart_delete">
-                                        <a class="cart_quantity_delete" onclick="return confirm('คุณต้องการรายการลบสินค้าหรือไม่ ?')" href="{%url 'removeCart' item.product.id%}"><i class="fa fa-times col text-danger"></i></a>
+                                        <a class="cart_quantity_delete" onclick="return confirm('คุณต้องการรายการลบสินค้าหรือไม่ ?')" href="{%url 'removeCart' item.product.id%}"><i class="fa-solid fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -67,7 +67,7 @@
                 <div class="dropdown-divider "></div>
                 <div align="right">
                     <button type="button" class="btn btn-danger mb-2 ml-2">ลูกหนี้</button>
-                    <button type="button" class="btn btn-success mb-2 mr-2">ชำระเงิน</button>
+                    <button type="button" class="btn btn-success mb-2 mr-2" onclick="" >ชำระเงิน</button>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                         href="" data-toggle="dropdown">หมวดหมู่สินค้า</a>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'home' %}">สินค้าทั้งหมด</a>
+                        <a class="dropdown-item" href="{% url 'pos' %}">สินค้าทั้งหมด</a>
                         <div class="dropdown-divider"></div>
                         {% for category in links %}
                         <a class="dropdown-item" href="{{category.get_url}}">{{category.name}}</a>
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <form class="form-inline ml-3" action="{% url 'home' %}", method="GET">
+                    <form class="form-inline ml-3" action="{% url 'pos' %}", method="GET">
                         <div class="input-group">
                             <input class="form-control" name="title" type="text" placeholder="ชื่อสินค้า / รหัสสินค้า">
                             <div class="input-group-append">
