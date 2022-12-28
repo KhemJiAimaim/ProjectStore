@@ -1,5 +1,5 @@
 """
-ASGI config for DjangoPOS project.
+ASGI config for store_pos project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

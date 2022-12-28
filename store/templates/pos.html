@@ -3,10 +3,10 @@
 {% load humanize %}
 {% load static %}
 {% block style %}
-    <link rel="stylesheet" href="{% static 'CSS.css' %}">
+    <link rel="stylesheet" href="{% static 'mycss.css' %}">
 {% endblock %}
 {% block script %}
-    <script src="{% static 'JS.js' %}"></script>
+    <script src="{% static 'myjs.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -105,7 +105,7 @@
 
             <div class="row">
                 {% for products in product %}
-                <div class="col-lg-3 mt-3" style="height: 620px;">
+                <div class="col-lg-3 mt-3">
                     <div class="card shadow-sm p-1  bg-white rounded ">
                         {% if products.image and products.stock <= 0 %}
                         <a title="{{ products.description }}">
@@ -133,20 +133,21 @@
                 </div>
                 {% endfor %}
             </div>
-            <br>
+            
             <footer>
+                <div class="dropdown-divider "></div>
                 <ul class="pagination justify-content-end">
                     {% if product.has_previous %}
-                    <li class="page-item"><a class="page-link"
-                            href="?page=product.previous_page_number">Previous</a></li>
+                    <li class="page-item"><a class="page-link "
+                            href="?page=product.previous_page_number" >Previous</a></li>
                     {% endif %}
         
                     {% for i in product.paginator.page_range %}
-                    <li class="page-item {% if product.number == i %}active{% endif %}"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                    <li class="page-item {% if product.number == i %}active{% endif %}"><a class="page-link " href="?page={{i}}" >{{i}}</a></li>
                     {% endfor %}
         
                     {% if product.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{product.next_page_number}}">Next</a></li>
+                    <li class="page-item"><a class="page-link " href="?page={{product.next_page_number}}"  >Next</a></li>
                     {% endif %}
                 </ul>
             </footer>
