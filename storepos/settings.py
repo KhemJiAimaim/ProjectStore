@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DjangoPOS.urls'
+ROOT_URLCONF = 'storepos.urls'
 
 import os
 
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'DjangoPOS.wsgi.application'
+WSGI_APPLICATION = 'storepos.wsgi.application'
 
 
 # Database
